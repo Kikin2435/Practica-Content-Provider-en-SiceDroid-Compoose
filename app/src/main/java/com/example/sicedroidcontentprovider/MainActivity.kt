@@ -3,6 +3,8 @@ package com.example.sicedroidcontentprovider
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.sicedroidcontentprovider.ui.ViewModel.ContentViewModel
 import com.example.sicedroidcontentprovider.ui.navigation.NavGraph
 
 class MainActivity : ComponentActivity() {
@@ -12,6 +14,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
 
+            val viewModel: ContentViewModel = viewModel()
             NavGraph()
 
         }
