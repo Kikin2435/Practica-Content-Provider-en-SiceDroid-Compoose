@@ -1,13 +1,18 @@
 package com.example.sicedroidcontentprovider.ui.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.sicedroidcontentprovider.data.Kardex
@@ -21,6 +26,8 @@ fun InsertScreen(
 
 ) {
 
+    val azulTecNM = Color(0xFF003366)
+
     var clvMat by remember { mutableStateOf("") }
     var clvOfi by remember { mutableStateOf("") }
     var materia by remember { mutableStateOf("") }
@@ -30,28 +37,50 @@ fun InsertScreen(
 
     Scaffold(
 
+        containerColor = Color(0xFFF2F4F8),
+
         topBar = {
 
             TopAppBar(
 
-                title = { Text("Agregar Kardex") },
+                title = {
+
+                    Row {
+                        Icon(
+                            imageVector = Icons.Default.AccountBox,
+                            contentDescription = null,
+                            tint = Color.White
+                        )
+
+                        Spacer(modifier = Modifier.width(8.dp))
+
+                        Text(
+                            "Agregar Kardex",
+                            color = Color.White
+                        )
+                    }
+
+                },
 
                 navigationIcon = {
 
-                    IconButton(onClick = {
-
-                        navController.popBackStack()
-
-                    }) {
+                    IconButton(
+                        onClick = { navController.popBackStack() }
+                    ) {
 
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Regresar"
+                            contentDescription = "Regresar",
+                            tint = Color.White
                         )
 
                     }
 
-                }
+                },
+
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = azulTecNM
+                )
 
             )
 
@@ -67,9 +96,14 @@ fun InsertScreen(
                 .padding(20.dp)
                 .fillMaxSize(),
 
-            verticalArrangement = Arrangement.spacedBy(10.dp)
+            verticalArrangement = Arrangement.spacedBy(14.dp)
 
         ) {
+
+            Text(
+                "Información de la materia",
+                style = MaterialTheme.typography.titleMedium
+            )
 
             OutlinedTextField(
                 value = clvMat,
@@ -116,7 +150,11 @@ fun InsertScreen(
             Spacer(modifier = Modifier.height(20.dp))
 
             Row(
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
+
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+
             ) {
 
                 Button(
@@ -136,22 +174,23 @@ fun InsertScreen(
 
                         onGuardar(nuevo)
 
-                    }
+                    },
+
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = azulTecNM
+                    )
 
                 ) {
+
+                    Icon(
+                        imageVector = Icons.Default.Check,
+                        contentDescription = null
+                    )
+
+                    Spacer(modifier = Modifier.width(6.dp))
+
                     Text("Guardar")
-                }
 
-                Button(
-
-                    onClick = {
-
-                        navController.popBackStack()
-
-                    }
-
-                ) {
-                    Text("Cancelar")
                 }
 
             }

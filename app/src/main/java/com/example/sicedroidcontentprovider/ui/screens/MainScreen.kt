@@ -7,6 +7,8 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.sicedroidcontentprovider.data.CargaAcademica
 import com.example.sicedroidcontentprovider.ui.components.CargaCard
@@ -23,13 +25,24 @@ fun MainScreen(
 
 ) {
 
+    val azulTecNM = Color(0xFF1B396A)
+
     Scaffold(
 
         topBar = {
 
             TopAppBar(
 
-                title = { Text("Carga Académica") },
+                title = {
+                    Text(
+                        "Carga Académica",
+                        color = Color.White
+                    )
+                },
+
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = azulTecNM
+                ),
 
                 navigationIcon = {
 
@@ -41,7 +54,8 @@ fun MainScreen(
 
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Regresar"
+                            contentDescription = "Regresar",
+                            tint = Color.White
                         )
 
                     }
@@ -55,9 +69,18 @@ fun MainScreen(
         floatingActionButton = {
 
             FloatingActionButton(
-                onClick = { onInsertClick() }
+
+                onClick = { onInsertClick() },
+
+                containerColor = azulTecNM,
+                contentColor = Color.White
+
             ) {
-                Text("+")
+
+                Text(
+                    text = "+"
+                )
+
             }
 
         }
@@ -65,7 +88,11 @@ fun MainScreen(
     ) { padding ->
 
         LazyColumn(
-            modifier = Modifier.padding(padding)
+
+            modifier = Modifier
+                .padding(padding)
+                .padding(10.dp)
+
         ) {
 
             itemsIndexed(lista) { index, item ->

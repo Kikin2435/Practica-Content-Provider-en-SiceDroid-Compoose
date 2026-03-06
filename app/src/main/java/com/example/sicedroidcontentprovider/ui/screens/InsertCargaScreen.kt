@@ -3,24 +3,24 @@ package com.example.sicedroidcontentprovider.ui.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.sicedroidcontentprovider.data.CargaAcademica
 import androidx.navigation.NavController
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import com.example.sicedroidcontentprovider.data.CargaAcademica
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InsertCargaScreen(
     navController: NavController,
     onGuardar: (CargaAcademica) -> Unit
-
 ) {
+
+    val azulTecNM = Color(0xFF1B396A)
 
     var materia by remember { mutableStateOf("") }
     var docente by remember { mutableStateOf("") }
@@ -45,19 +45,22 @@ fun InsertCargaScreen(
 
             CenterAlignedTopAppBar(
 
-                title = { Text("Agregar Materia") },
+                title = { Text("Agregar Materia", color = Color.White) },
+
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = azulTecNM
+                ),
 
                 navigationIcon = {
 
                     IconButton(onClick = {
-
                         navController.popBackStack()
-
                     }) {
 
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Regresar"
+                            contentDescription = "Regresar",
+                            tint = Color.White
                         )
 
                     }
@@ -77,115 +80,155 @@ fun InsertCargaScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp),
 
-            verticalArrangement = Arrangement.spacedBy(10.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp)
 
         ) {
 
-            OutlinedTextField(
-                value = materia,
-                onValueChange = { materia = it },
-                label = { Text("Materia") },
-                modifier = Modifier.fillMaxWidth()
-            )
+            Card {
 
-            OutlinedTextField(
-                value = docente,
-                onValueChange = { docente = it },
-                label = { Text("Docente") },
-                modifier = Modifier.fillMaxWidth()
-            )
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
 
-            OutlinedTextField(
-                value = grupo,
-                onValueChange = { grupo = it },
-                label = { Text("Grupo") },
-                modifier = Modifier.fillMaxWidth()
-            )
+                    Text(
+                        "Datos de la Materia",
+                        style = MaterialTheme.typography.titleMedium
+                    )
 
-            OutlinedTextField(
-                value = creditos,
-                onValueChange = { creditos = it },
-                label = { Text("Créditos") },
-                modifier = Modifier.fillMaxWidth()
-            )
+                    OutlinedTextField(
+                        value = materia,
+                        onValueChange = { materia = it },
+                        label = { Text("Materia") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
 
-            OutlinedTextField(
-                value = estado,
-                onValueChange = { estado = it },
-                label = { Text("Estado de Materia") },
-                modifier = Modifier.fillMaxWidth()
-            )
+                    OutlinedTextField(
+                        value = docente,
+                        onValueChange = { docente = it },
+                        label = { Text("Docente") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
 
-            Divider()
+                    OutlinedTextField(
+                        value = grupo,
+                        onValueChange = { grupo = it },
+                        label = { Text("Grupo") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
 
-            Text("Horario", style = MaterialTheme.typography.titleMedium)
+                    OutlinedTextField(
+                        value = creditos,
+                        onValueChange = { creditos = it },
+                        label = { Text("Créditos") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
 
-            OutlinedTextField(
-                value = lunes,
-                onValueChange = { lunes = it },
-                label = { Text("Lunes") },
-                modifier = Modifier.fillMaxWidth()
-            )
+                    OutlinedTextField(
+                        value = estado,
+                        onValueChange = { estado = it },
+                        label = { Text("Estado de Materia") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
 
-            OutlinedTextField(
-                value = martes,
-                onValueChange = { martes = it },
-                label = { Text("Martes") },
-                modifier = Modifier.fillMaxWidth()
-            )
+                }
 
-            OutlinedTextField(
-                value = miercoles,
-                onValueChange = { miercoles = it },
-                label = { Text("Miércoles") },
-                modifier = Modifier.fillMaxWidth()
-            )
+            }
 
-            OutlinedTextField(
-                value = jueves,
-                onValueChange = { jueves = it },
-                label = { Text("Jueves") },
-                modifier = Modifier.fillMaxWidth()
-            )
+            Card {
 
-            OutlinedTextField(
-                value = viernes,
-                onValueChange = { viernes = it },
-                label = { Text("Viernes") },
-                modifier = Modifier.fillMaxWidth()
-            )
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
 
-            OutlinedTextField(
-                value = sabado,
-                onValueChange = { sabado = it },
-                label = { Text("Sábado") },
-                modifier = Modifier.fillMaxWidth()
-            )
+                    Text(
+                        "Horario",
+                        style = MaterialTheme.typography.titleMedium
+                    )
 
-            Divider()
+                    OutlinedTextField(
+                        value = lunes,
+                        onValueChange = { lunes = it },
+                        label = { Text("Lunes") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
 
-            OutlinedTextField(
-                value = observaciones,
-                onValueChange = { observaciones = it },
-                label = { Text("Observaciones") },
-                modifier = Modifier.fillMaxWidth()
-            )
+                    OutlinedTextField(
+                        value = martes,
+                        onValueChange = { martes = it },
+                        label = { Text("Martes") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
 
-            OutlinedTextField(
-                value = semipresencial,
-                onValueChange = { semipresencial = it },
-                label = { Text("Semipresencial") },
-                modifier = Modifier.fillMaxWidth()
-            )
+                    OutlinedTextField(
+                        value = miercoles,
+                        onValueChange = { miercoles = it },
+                        label = { Text("Miércoles") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
 
-            OutlinedTextField(
-                value = clvOficial,
-                onValueChange = { clvOficial = it },
-                label = { Text("Clave Oficial") },
-                modifier = Modifier.fillMaxWidth()
-            )
+                    OutlinedTextField(
+                        value = jueves,
+                        onValueChange = { jueves = it },
+                        label = { Text("Jueves") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
 
-            Spacer(modifier = Modifier.height(20.dp))
+                    OutlinedTextField(
+                        value = viernes,
+                        onValueChange = { viernes = it },
+                        label = { Text("Viernes") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    OutlinedTextField(
+                        value = sabado,
+                        onValueChange = { sabado = it },
+                        label = { Text("Sábado") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                }
+
+            }
+
+            Card {
+
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+
+                    Text(
+                        "Información adicional",
+                        style = MaterialTheme.typography.titleMedium
+                    )
+
+                    OutlinedTextField(
+                        value = observaciones,
+                        onValueChange = { observaciones = it },
+                        label = { Text("Observaciones") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    OutlinedTextField(
+                        value = semipresencial,
+                        onValueChange = { semipresencial = it },
+                        label = { Text("Semipresencial") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    OutlinedTextField(
+                        value = clvOficial,
+                        onValueChange = { clvOficial = it },
+                        label = { Text("Clave Oficial") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                }
+
+            }
 
             Button(
 
@@ -216,11 +259,17 @@ fun InsertCargaScreen(
 
                 },
 
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(55.dp),
+
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = azulTecNM
+                )
 
             ) {
 
-                Text("Guardar")
+                Text("Guardar Materia")
 
             }
 
