@@ -2,6 +2,7 @@ package com.example.sicedroidcontentprovider.data
 
 data class CargaAcademica(
 
+    val id: Int = 0,
     val Semipresencial: String = "",
     val Observaciones: String = "",
     val Docente: String = "",

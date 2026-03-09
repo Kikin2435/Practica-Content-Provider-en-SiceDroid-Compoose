@@ -8,6 +8,8 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -26,7 +28,9 @@ fun CargaCard(
     val rojoEliminar = Color(0xFFD32F2F)
 
     var editando by remember { mutableStateOf(false) }
+    var mostrarDialogoEliminar by remember { mutableStateOf(false) } // Estado para el diálogo
 
+    // Estados de los campos
     var materia by remember { mutableStateOf(carga.Materia) }
     var docente by remember { mutableStateOf(carga.Docente) }
     var grupo by remember { mutableStateOf(carga.Grupo) }
@@ -44,6 +48,31 @@ fun CargaCard(
     var semipresencial by remember { mutableStateOf(carga.Semipresencial) }
     var clvOficial by remember { mutableStateOf(carga.clvOficial) }
 
+    // DIÁLOGO DE CONFIRMACIÓN
+    if (mostrarDialogoEliminar) {
+        AlertDialog(
+            onDismissRequest = { mostrarDialogoEliminar = false },
+            title = { Text("Confirmar eliminación") },
+            text = { Text("¿Estás seguro de que deseas eliminar la materia '${materia}'? Esta acción no se puede deshacer.") },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        onDelete()
+                        mostrarDialogoEliminar = false
+                    },
+                    colors = ButtonDefaults.textButtonColors(contentColor = rojoEliminar)
+                ) {
+                    Text("Eliminar")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { mostrarDialogoEliminar = false }) {
+                    Text("Cancelar")
+                }
+            }
+        )
+    }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -51,39 +80,20 @@ fun CargaCard(
         shape = RoundedCornerShape(18.dp),
         elevation = CardDefaults.cardElevation(8.dp)
     ) {
-
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
+        Column(modifier = Modifier.padding(16.dp)) {
 
             if (!editando) {
-
-                Text(
-                    text = materia,
-                    fontSize = 22.sp,
-                    color = azulTec
-                )
-
+                Text(text = materia, fontSize = 22.sp, color = azulTec)
                 Spacer(modifier = Modifier.height(6.dp))
-
                 Text("Docente: $docente")
                 Text("Grupo: $grupo")
                 Text("Créditos: $creditos")
                 Text("Estado: $estado")
-
                 Spacer(modifier = Modifier.height(10.dp))
-
                 Divider()
-
                 Spacer(modifier = Modifier.height(10.dp))
-
-                Text(
-                    text = "Horario",
-                    style = MaterialTheme.typography.titleMedium
-                )
-
+                Text(text = "Horario", style = MaterialTheme.typography.titleMedium)
                 Spacer(modifier = Modifier.height(6.dp))
-
                 Column {
                     Text("Lunes: $lunes")
                     Text("Martes: $martes")
@@ -92,67 +102,27 @@ fun CargaCard(
                     Text("Viernes: $viernes")
                     Text("Sábado: $sabado")
                 }
-
                 Spacer(modifier = Modifier.height(10.dp))
-
                 Divider()
-
                 Spacer(modifier = Modifier.height(10.dp))
-
                 Text("Observaciones: $observaciones")
                 Text("Semipresencial: $semipresencial")
                 Text("Clave Oficial: $clvOficial")
-
             } else {
-
-                OutlinedTextField(
-                    value = materia,
-                    onValueChange = { materia = it },
-                    label = { Text("Materia") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                OutlinedTextField(
-                    value = docente,
-                    onValueChange = { docente = it },
-                    label = { Text("Docente") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                OutlinedTextField(
-                    value = grupo,
-                    onValueChange = { grupo = it },
-                    label = { Text("Grupo") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                OutlinedTextField(
-                    value = creditos,
-                    onValueChange = { creditos = it },
-                    label = { Text("Créditos") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                OutlinedTextField(
-                    value = estado,
-                    onValueChange = { estado = it },
-                    label = { Text("Estado") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-
+                OutlinedTextField(value = materia, onValueChange = { materia = it }, label = { Text("Materia") }, modifier = Modifier.fillMaxWidth())
+                OutlinedTextField(value = docente, onValueChange = { docente = it }, label = { Text("Docente") }, modifier = Modifier.fillMaxWidth())
+                OutlinedTextField(value = grupo, onValueChange = { grupo = it }, label = { Text("Grupo") }, modifier = Modifier.fillMaxWidth())
+                OutlinedTextField(value = creditos, onValueChange = { creditos = it }, label = { Text("Créditos") }, modifier = Modifier.fillMaxWidth())
+                OutlinedTextField(value = estado, onValueChange = { estado = it }, label = { Text("Estado") }, modifier = Modifier.fillMaxWidth())
                 Spacer(modifier = Modifier.height(10.dp))
-
                 Text("Horario")
-
                 OutlinedTextField(lunes, { lunes = it }, label = { Text("Lunes") }, modifier = Modifier.fillMaxWidth())
                 OutlinedTextField(martes, { martes = it }, label = { Text("Martes") }, modifier = Modifier.fillMaxWidth())
                 OutlinedTextField(miercoles, { miercoles = it }, label = { Text("Miércoles") }, modifier = Modifier.fillMaxWidth())
                 OutlinedTextField(jueves, { jueves = it }, label = { Text("Jueves") }, modifier = Modifier.fillMaxWidth())
                 OutlinedTextField(viernes, { viernes = it }, label = { Text("Viernes") }, modifier = Modifier.fillMaxWidth())
                 OutlinedTextField(sabado, { sabado = it }, label = { Text("Sábado") }, modifier = Modifier.fillMaxWidth())
-
                 Spacer(modifier = Modifier.height(10.dp))
-
                 OutlinedTextField(observaciones, { observaciones = it }, label = { Text("Observaciones") }, modifier = Modifier.fillMaxWidth())
                 OutlinedTextField(semipresencial, { semipresencial = it }, label = { Text("Semipresencial") }, modifier = Modifier.fillMaxWidth())
                 OutlinedTextField(clvOficial, { clvOficial = it }, label = { Text("Clave Oficial") }, modifier = Modifier.fillMaxWidth())
@@ -165,12 +135,9 @@ fun CargaCard(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-
                 Button(
                     onClick = {
-
                         if (editando) {
-
                             onUpdate(
                                 carga.copy(
                                     Materia = materia,
@@ -190,38 +157,21 @@ fun CargaCard(
                                 )
                             )
                         }
-
                         editando = !editando
                     },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = azulTec
-                    )
+                    colors = ButtonDefaults.buttonColors(containerColor = azulTec)
                 ) {
-
-                    Icon(
-                        imageVector = if (editando) Icons.Default.Check else Icons.Default.Edit,
-                        contentDescription = null
-                    )
-
+                    Icon(imageVector = if (editando) Icons.Default.Check else Icons.Default.Edit, contentDescription = null)
                     Spacer(modifier = Modifier.width(6.dp))
-
                     Text(if (editando) "Guardar" else "Editar")
                 }
 
                 Button(
-                    onClick = { onDelete() },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = rojoEliminar
-                    )
+                    onClick = { mostrarDialogoEliminar = true }, // Activa el diálogo en lugar de borrar directo
+                    colors = ButtonDefaults.buttonColors(containerColor = rojoEliminar)
                 ) {
-
-                    Icon(
-                        imageVector = Icons.Default.Delete,
-                        contentDescription = null
-                    )
-
+                    Icon(imageVector = Icons.Default.Delete, contentDescription = null)
                     Spacer(modifier = Modifier.width(6.dp))
-
                     Text("Eliminar")
                 }
             }

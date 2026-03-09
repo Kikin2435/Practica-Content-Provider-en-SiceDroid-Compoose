@@ -1,7 +1,7 @@
 package com.example.sicedroidcontentprovider.data
 
 data class Kardex(
-
+    val id: Int = 0,
     val S3: String? = null,
     val P3: String? = null,
     val A3: String? = null,
@@ -20,5 +20,4 @@ data class Kardex(
     val S2: String? = null,
     val P2: String? = null,
     val A2: String? = null
-
 )

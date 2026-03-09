@@ -34,11 +34,14 @@ fun NavGraph() {
         startDestination = "login"
     ) {
         composable("login") {
-            LoginScreen(onLoginSuccess = {
+            LoginScreen(
+                onLoginSuccess = {
                 navController.navigate("menu") {
                     popUpTo("login") { inclusive = true }
                 }
-            })
+            },
+                viewModel = viewModel
+            )
         }
 
         composable("menu") {
@@ -57,17 +60,11 @@ fun NavGraph() {
                 navController = navController,
                 lista = listaCarga,
                 onInsertClick = { navController.navigate("insertarCarga") },
-                onDelete = { index -> listaCarga = listaCarga.filterIndexed { i, _ -> i != index } },
-                onUpdate = { index, nueva ->
-                    val mutable = listaCarga.toMutableList()
-                    mutable[index] = nueva
-                    listaCarga = mutable
-                }
+                viewModel = viewModel
             )
         }
 
         composable("kardex") {
-            // CARGA BAJO DEMANDA: Cargamos los datos justo cuando entramos a esta pantalla
             LaunchedEffect(Unit) {
                 viewModel.obtenerKardexExterno(context)
             }
@@ -75,35 +72,21 @@ fun NavGraph() {
             KardexScreen(
                 listaKardex = listaKardex,
                 onInsertClick = { navController.navigate("insertKardex") },
-                onDelete = { index ->
-                    listaKardex = listaKardex.filterIndexed { i, _ -> i != index }
-                },
-                onUpdate = { index, nuevo ->
-                    val mutable = listaKardex.toMutableList()
-                    mutable[index] = nuevo
-                    listaKardex = mutable
-                },
+                viewModel = viewModel,
                 onBack = { navController.popBackStack() }
             )
         }
 
         composable("insertKardex") {
             InsertScreen(
-                navController = navController,
-                onGuardar = { nuevo ->
-                    listaKardex = listaKardex + nuevo
-                    navController.popBackStack()
-                }
+                navController = navController
             )
         }
         
         composable("insertarCarga") {
             InsertCargaScreen(
                 navController = navController,
-                onGuardar = { nueva ->
-                    listaCarga = listaCarga + nueva
-                    navController.popBackStack()
-                }
+                viewModel = viewModel
             )
         }
     }

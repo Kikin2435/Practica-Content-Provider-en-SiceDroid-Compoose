@@ -11,8 +11,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sicedroidcontentprovider.data.Kardex
+import com.example.sicedroidcontentprovider.ui.ViewModel.ContentViewModel
 import com.example.sicedroidcontentprovider.ui.components.KardexCard
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -21,13 +24,13 @@ fun KardexScreen(
 
     listaKardex: List<Kardex>,
     onInsertClick: () -> Unit,
-    onDelete: (Int) -> Unit,
-    onUpdate: (Int, Kardex) -> Unit,
+    viewModel: ContentViewModel = viewModel(),
     onBack: () -> Unit
 
 ) {
 
     val azulTecNM = Color(0xFF003366)
+    val context = LocalContext.current
 
     Scaffold(
 
@@ -137,12 +140,12 @@ fun KardexScreen(
 
                         kardex = item,
 
-                        onDelete = {
-                            onDelete(index)
+                        onDelete = { nuevo ->
+                            viewModel.eliminarKardex(context, nuevo)
                         },
 
-                        onUpdate = { nuevo ->
-                            onUpdate(index, nuevo)
+                        onUpdate = { nueva ->
+                            viewModel.actualizarKardex(context, nueva)
                         }
 
                     )

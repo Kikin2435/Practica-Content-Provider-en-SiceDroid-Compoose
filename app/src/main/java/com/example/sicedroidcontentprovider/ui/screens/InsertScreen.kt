@@ -1,6 +1,5 @@
 package com.example.sicedroidcontentprovider.ui.screens
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -13,20 +12,26 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.sicedroidcontentprovider.data.Kardex
+import com.example.sicedroidcontentprovider.ui.ViewModel.ContentViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InsertScreen(
 
     navController: NavController,
-    onGuardar: (Kardex) -> Unit
+    viewModel: ContentViewModel = viewModel()
 
 ) {
 
     val azulTecNM = Color(0xFF003366)
+
+    val context = LocalContext.current
+
 
     var clvMat by remember { mutableStateOf("") }
     var clvOfi by remember { mutableStateOf("") }
@@ -162,17 +167,17 @@ fun InsertScreen(
                     onClick = {
 
                         val nuevo = Kardex(
-
                             ClvMat = clvMat,
                             ClvOfiMat = clvOfi,
                             Materia = materia,
                             Cdts = cdts.toIntOrNull() ?: 0,
                             Calif = calif.toIntOrNull() ?: 0,
                             Acred = acred
-
                         )
 
-                        onGuardar(nuevo)
+                        viewModel.insertarKardex(context, nuevo)
+
+                        navController.popBackStack()
 
                     },
 
